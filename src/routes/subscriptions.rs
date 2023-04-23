@@ -24,10 +24,10 @@ pub async fn subscribe(form: web::Form<FormData>, pool: web::Data<PgPool>) -> Ht
     .execute(pool.get_ref())
     .await;
 
-    return if sql_result.is_err() {
+    if sql_result.is_err() {
         println!("Failed to execute query: {}", sql_result.unwrap_err());
         HttpResponse::InternalServerError().finish()
     } else {
         HttpResponse::Created().finish()
-    };
+    }
 }
